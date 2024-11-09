@@ -5,7 +5,6 @@ import TableRow from '../../../components/common/TableRow';
 import TableCell from '../../../components/common/TableCell';
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { useTranslation } from 'react-i18next';
 import { IoSearchOutline } from "react-icons/io5";
 import { CiCircleRemove } from "react-icons/ci";
 import { Empty } from 'antd';
@@ -17,7 +16,6 @@ import FormEditBeforeFly from './FormEditBeforeFly';
 
 const AfterFlying = () => {
   const dispatch = useDispatch();
-  const { t } = useTranslation("translation");
   const [keyword, setKeyword] = useState('');
   const inputRef = useRef(null);
   const { openEdit, openCreate, openDelete, page, pageSize,initialData  } = useSelector((state) => state.beforeFly);
@@ -76,8 +74,8 @@ const AfterFlying = () => {
   return (
     <div>
       <div className='flex items-center justify-between'>
-        <p className='text-[18px] font-bold'>{t('check_before_flying')}</p>
-        <CustomButton><p onClick={handleOpenCreate}>{t('create_infor')}</p></CustomButton>
+        <p className='text-[18px] font-bold'>check_before_flying</p>
+        <CustomButton><p onClick={handleOpenCreate}>create_infor</p></CustomButton>
       </div>
 
       <div className="relative border border-gray-300 flex items-center mx-auto rounded-lg max-w-md h-10  mt-3 mb-5">
@@ -85,7 +83,7 @@ const AfterFlying = () => {
           <TextField
             id="keyword"
             type="text"
-            placeholder={t("search")}
+            placeholder="search"
             size="small"
             fullWidth
             value={keyword}
@@ -122,7 +120,7 @@ const AfterFlying = () => {
             <TableRow isHeader={true}>
               {columns.map((column, index) => (
                 <TableCell key={index} type="header">
-                  {t(column.title)}
+                  {column.title}
                 </TableCell>
               ))}
             </TableRow>
