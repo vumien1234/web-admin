@@ -5,29 +5,28 @@ import TableRow from "../../../components/common/TableRow";
 import TableCell from "../../../components/common/TableCell";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
-import Overlay from "../../../components/common/Overlay";
-import FormEdit from "./FormEditAfterFly";
-import FormCreate from "./FormCreateAfterFly";
 import { IoSearchOutline } from "react-icons/io5";
 import { CiCircleRemove } from "react-icons/ci";
+import { Empty } from "antd";
 import CustomButton from "../../../components/common/Button";
 import {
+    setCurrentPageBeforefly,
+    setInitialData,
     setOpenCreate,
+    setPageSizeBeforefly,
     setOpenDelete,
     setOpenEdit,
-    setInitialData,
-    setPageSizeAfterfly,
-    setCurrentPageAfterfly,
-} from "./slices";
-import { Empty } from "antd";
+} from "../slices";
+import Overlay from "../../../components/common/Overlay";
+import FormCreateBeforeFly from "./FormCreateUser";
+import FormEditBeforeFly from "./FormEditUse";
 
 const AfterFlying = () => {
     const dispatch = useDispatch();
     const [keyword, setKeyword] = useState("");
     const inputRef = useRef(null);
-
-    const { openEdit, openCreate, openDelete, page, pageSize } = useSelector(
-        (state) => state.afterFly
+    const { openEdit, openCreate, openDelete, page, pageSize, initialData } = useSelector(
+        (state) => state.beforeFly
     );
 
     const handleInputChange = (event) => {
@@ -57,8 +56,6 @@ const AfterFlying = () => {
         { id: 5, username: "Nguyễn văn A", created_at: "30/09/2021", updated_at: "01/10/2021" },
     ];
 
-    const totalCount = data.length;
-
     const handleOpenEdit = (rowData) => {
         dispatch(setInitialData(rowData));
         dispatch(setOpenEdit());
@@ -74,20 +71,20 @@ const AfterFlying = () => {
 
     const handleChangePage = (event, newPage) => {
         event.preventDefault();
-        dispatch(setCurrentPageAfterfly(newPage + 1));
+        dispatch(setCurrentPageBeforefly(newPage + 1));
     };
 
     const handleChangeRowsPerPage = (event) => {
-        dispatch(setPageSizeAfterfly(parseInt(event.target.value, 10)));
-        dispatch(setCurrentPageAfterfly(1));
+        dispatch(setPageSizeBeforefly(parseInt(event.target.value, 10)));
+        dispatch(setCurrentPageBeforefly(1));
     };
 
     return (
         <div>
             <div className="flex items-center justify-between">
-                <p className="text-[18px] font-bold">check after flying</p>
+                <p className="text-[18px] font-bold">check_before_flying</p>
                 <CustomButton>
-                    <p onClick={handleOpenCreate}>create infor</p>
+                    <p onClick={handleOpenCreate}>create_infor</p>
                 </CustomButton>
             </div>
 
@@ -125,13 +122,13 @@ const AfterFlying = () => {
                 <button
                     id="button-search"
                     style={{ width: "15%" }}
-                    className=" h-10 flex justify-center items-center bg-blue-700 text-white text-[20px] absolute right-0">
+                    className="h-10 flex justify-center items-center bg-blue-700 text-white text-[20px] absolute right-0">
                     <IoSearchOutline />
                 </button>
             </div>
 
             <div className="flex justify-end mt-3">
-                <p className="text-sm text-gray-500">Total: {totalCount}</p>
+                <p className="text-sm text-gray-500">Total: {data.length}</p>
             </div>
             <div className="overflow-x-auto">
                 <Table sx={{ minWidth: 700 }}>
@@ -145,18 +142,18 @@ const AfterFlying = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((row, rowIndex) => (
+                        {data.slice((page - 1) * pageSize, page * pageSize).map((row, rowIndex) => (
                             <TableRow key={rowIndex}>
                                 {columns.map((column, colIndex) => (
                                     <TableCell key={colIndex} type={column.type}>
                                         {column.title === "action" ? (
                                             <div className="text-[16px]">
                                                 <button
-                                                    onClick={() => handleOpenEdit(row)}
-                                                    className="pr-3">
+                                                    className="pr-3"
+                                                    onClick={() => handleOpenEdit(row)}>
                                                     <FiEdit />
                                                 </button>
-                                                <button onClick={() => handleOpenDelete()}>
+                                                <button onClick={handleOpenDelete}>
                                                     <FaRegTrashCan />
                                                 </button>
                                             </div>
@@ -168,15 +165,15 @@ const AfterFlying = () => {
                             </TableRow>
                         ))}
                     </TableBody>
-                    {data?.length === 0 && (
+                    {data.length === 0 && (
                         <TableRow>
-                            <TableCell colSpan={Object.keys(columns).length} className="py-4">
+                            <TableCell colSpan={columns.length} className="py-4">
                                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                             </TableCell>
                         </TableRow>
                     )}
                 </Table>
-                {data?.length > 0 && (
+                {data.length > 0 && (
                     <Box display="flex" justifyContent="end" mt={1}>
                         <TablePagination
                             component="div"
@@ -193,11 +190,19 @@ const AfterFlying = () => {
                     </Box>
                 )}
             </div>
-
+            {/* model-create */}
+            <Overlay isOpen={openCreate} onClose={() => dispatch(setOpenCreate())}>
+                <div className="relative w-full sm:w-auto sm:max-w-md">
+                    <FormCreateBeforeFly onCancel={() => dispatch(setOpenCreate())} />
+                </div>
+            </Overlay>
             {/* Modal chỉnh sửa */}
             <Overlay isOpen={openEdit} onClose={() => dispatch(setOpenEdit())}>
                 <div className="relative w-full sm:w-auto sm:max-w-md">
-                    <FormEdit onCancel={() => dispatch(setOpenEdit())} />
+                    <FormEditBeforeFly
+                        initialData={initialData}
+                        onCancel={() => dispatch(setOpenEdit())}
+                    />
                 </div>
             </Overlay>
             {/* Modal xóa */}
@@ -217,12 +222,6 @@ const AfterFlying = () => {
                             </CustomButton>
                         </div>
                     </div>
-                </div>
-            </Overlay>
-            {/* Modal tạo mới */}
-            <Overlay isOpen={openCreate} onClose={() => dispatch(setOpenCreate())}>
-                <div className="relative w-full sm:w-auto sm:max-w-md">
-                    <FormCreate onCancel={() => dispatch(setOpenCreate())} />
                 </div>
             </Overlay>
         </div>
