@@ -8,7 +8,7 @@ import MobileLayout from '../../modules/mobiles/LayoutMobile';
 const Layout = ({ children }) => {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -18,17 +18,6 @@ const Layout = ({ children }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   const isLoginPage = location.pathname === routes.login.path;
-
-  //   if (!token && !pageHidenMenu.includes(location.pathname)) {
-  //     navigate(routes.login.path); 
-  //   } else if (token && isLoginPage) {
-  //     navigate(routes.plane.path);
-  //   }
-  // }, [location.pathname, navigate]);
 
   const pageHidenMenu = [routes.login.path];
 
@@ -48,10 +37,10 @@ const Layout = ({ children }) => {
         <Drawer />
         <main className='main-content min-h-screen flex-grow relative'>
           <Header />
-          <div className='content-container relative p-5'>
+          <div className='content-container relative p-7'>
             {children}
           </div>
-          <p className='text-[12px] absolute bottom-0 left-0 right-0 flex justify-center text-[#ccc] p-2'> Developed by Team Drone @2024</p>
+          <p className='text-[12px] absolute bottom-0 left-0 right-0 flex justify-center text-[#ccc] p-2'> Developed by Phenikaa University @2024</p>
         </main>
       </div>
     </div>

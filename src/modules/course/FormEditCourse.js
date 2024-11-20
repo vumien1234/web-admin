@@ -1,19 +1,19 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Grid } from "@mui/material";
-import CustomButton from "../../../components/common/Button";
+import CustomButton from "../../components/common/Button";
+// import { useSelector } from "react-redux";
 
-const FormCreate = ({ onCancel }) => {
-	const { handleSubmit, control } = useForm();
+const FormEditCourse = ({ onCancel }) => {
 
-	const onSubmit = (data) => {
-		console.log(data, "data");
+  const { handleSubmit, control } = useForm()
+  const onSubmit = (data) => {
+		console.log(data,"data");
 	};
-
-	return (
-		<div>
-			<form className="p-4" onSubmit={handleSubmit(onSubmit)}>
-				<Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+  return (
+    <div>
+      <form className="p-4" onSubmit={handleSubmit(onSubmit)}>
+        <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 					<Grid item xs={6}>
 						<Controller
 							name="id"
@@ -21,7 +21,7 @@ const FormCreate = ({ onCancel }) => {
 							render={({ field }) => <TextField {...field} label="id" fullWidth />}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+          <Grid item xs={6}>
 						<Controller
 							name="email"
 							control={control}
@@ -37,7 +37,7 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+          <Grid item xs={6}>
 						<Controller
 							name="phone"
 							control={control}
@@ -53,7 +53,7 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+          <Grid item xs={6}>
 						<Controller
 							name="gender"
 							control={control}
@@ -69,8 +69,14 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-				
-					<Grid item xs={6}>
+          <Grid item xs={6}>
+						<Controller
+							name="id"
+							control={control}
+							render={({ field }) => <TextField {...field} label="id" fullWidth />}
+						/>
+					</Grid>
+          <Grid item xs={6}>
 						<Controller
 							name="status"
 							control={control}
@@ -79,7 +85,7 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+          <Grid item xs={6}>
 						<Controller
 							name="created_at"
 							control={control}
@@ -88,7 +94,7 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+          <Grid item xs={6}>
 						<Controller
 							name="updated_at"
 							control={control}
@@ -97,19 +103,18 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-
 				</Grid>
-				<Grid item xs={6} className="!mt-10">
-					<CustomButton onClick={onCancel} variant="contained" color="inherit">
-						<p className="font-bold uppercase">cancel</p>
-					</CustomButton>
-					<CustomButton type="submit" variant="contained" color="primary">
-						save
-					</CustomButton>
-				</Grid>
-			</form>
-		</div>
-	);
+        <Grid item xs={6} className="!mt-10">
+          <CustomButton onClick={onCancel} variant="contained" color="inherit">
+            <p className="font-bold uppercase">cancel</p>
+          </CustomButton>
+          <CustomButton type="submit" variant="contained" color="primary">
+            save
+          </CustomButton>
+        </Grid>
+      </form>
+    </div>
+  );
 };
 
-export default FormCreate;
+export default FormEditCourse;

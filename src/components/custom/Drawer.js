@@ -2,16 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, List, ListItem, ListItemText, Popover } from "@mui/material";
-import Logo from "../../assets/image/React-icon.svg.png";
+import Logo from "../../assets/image/TUTORMASTER.png";
+import Logo1 from "../../assets/image/logo.webp";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { paths } from "../../routes";
 
 const Drawer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const [activeParent, setActiveParent] = useState(null);
   const [indexMenuActive, setIndexMenuActive] = useState(null);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [showSubMenu, setShowSubMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,7 +24,6 @@ const Drawer = () => {
     let found = false;
 
     paths.forEach((parent, index) => {
-      // Check if the parent is the exact match
       if (location.pathname === parent.to) {
         setActiveParent(parent.key);
         setIndexMenuActive(index);
@@ -31,7 +33,6 @@ const Drawer = () => {
         found = true;
       }
 
-      // Check if any child is the exact match
       if (parent.children) {
         parent.children.forEach((child) => {
           if (location.pathname === child.to) {
@@ -59,14 +60,11 @@ const Drawer = () => {
     event.preventDefault();
 
     if (path !== location.pathname) {
-      // If the clicked item is a parent with children
       if (paths[index]?.children) {
         if (openSubMenuParent === key) {
-          // Close the submenu if it's already open
           setOpenSubMenuParent(null);
           setShowSubMenu(false);
         } else {
-          // Open the submenu if a different parent is clicked
           setOpenSubMenuParent(key);
           setShowSubMenu(true);
         }
@@ -77,7 +75,6 @@ const Drawer = () => {
           setAnchorEl(event.currentTarget);
         }
       } else {
-        // If it's a parent without children or a direct path
         setOpenSubMenuParent(null);
         setActiveParent(key);
         setIndexMenuActive(index);
@@ -90,13 +87,13 @@ const Drawer = () => {
 
   const handleSubMenuClick = (path, key) => {
     if (path !== location.pathname) {
-      setActiveParent(null); // Ensure parent is deactivated
-      setIndexMenuActive(null); // Deactivate any parent active state
-      setActiveSubMenu(key); // Activate the child menu
+      setActiveParent(null);
+      setIndexMenuActive(null);
+      setActiveSubMenu(key);
       navigate(path);
       setAnchorEl(null);
     } else {
-      setActiveSubMenu(key); // Highlight the current submenu
+      setActiveSubMenu(key);
     }
   };
 
@@ -106,15 +103,16 @@ const Drawer = () => {
 
   return (
     <div className={`wrapper-drawer ${isDrawerOpen ? "open" : "closed"}`}>
-      <Box sx={{ ml: 1.5 }} className="header-drawer">
+     {isDrawerOpen ? (
+        <img src={Logo} alt="Logo" className="mt-3 ml-3" />
+      ) : (
         <img
-          id="img-header"
-          style={{ width: "40px", height: "35px" }}
-          src={Logo}
-          alt="image"
+          src={Logo1}
+          alt="Logo"
+          className="w-[40px] h-[40px] mt-4 relative left-1/2 transform -translate-x-1/2"
         />
-        {isDrawerOpen && <p className="title-header">TUTORMASTER</p>}
-      </Box>
+      )}
+
       <Box className="item-content-drawer mt-4">
         <List>
           {paths.map((parent, index) => (

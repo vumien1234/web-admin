@@ -11,8 +11,8 @@ import { loginAsync } from "./slices";
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { isAuthenticated } = useSelector((state) => state.auth);
-	const [anchorEl, setAnchorEl] = useState(null);
+	// const { isAuthenticated } = useSelector((state) => state.auth);
+	// const [anchorEl, setAnchorEl] = useState(null);
 
 	const { handleSubmit, control } = useForm({
 		defaultValues: {

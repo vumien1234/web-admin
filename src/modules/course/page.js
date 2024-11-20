@@ -1,22 +1,25 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Table, TableBody, TableHead, TablePagination, TextField } from "@mui/material";
+import { FiEdit } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoSearchOutline } from "react-icons/io5";
 import { CiCircleRemove } from "react-icons/ci";
 import { Empty } from "antd";
 import TableCell from "../../components/common/TableCell";
 import TableRow from "../../components/common/TableRow";
-import CustomButton from "../../components/common/Button";
 import Overlay from "../../components/common/Overlay";
-import { setOpenDelete } from "./slices";
+import FormCreateCourse from "./FormCreateCourse";
+import FormEditCourse from "./FormEditCourse";
+import CustomButton from "../../components/common/Button";
+import { setOpenCreate, setOpenDelete, setOpenEdit } from "./slice";
 
-const Support = () => {
+const Course = () => {
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState("");
   const inputRef = useRef(null);
 
-  const { openDelete } = useSelector((state) => state.support);
+  const { openEdit, openCreate, openDelete } = useSelector((state) => state.course);
 
   const handleInputChange = (event) => {
     setKeyword(event.target.value);
@@ -28,63 +31,101 @@ const Support = () => {
       inputRef.current.focus();
     }
   };
-  const columns = [
-    { title: "Tên", type: "text" },
-    { title: "Email", type: "text" },
-    { title: "Số điện thoại", type: "text" },
-    { title: "Ngày gửi", type: "date" },
-    { title: "Trạng thái", type: "text" },
-    { title: "Lời nhắn", type: "text" },
-    { title: "Hành động", type: "action" },
-  ];
 
+  const columns = [
+    { title: "id", type: "string" },
+    { title: "Tên khóa học", type: "text" },
+    { title: "Giảng viên", type: "text" },
+    { title: "Chuyên ngành", type: "text" },
+    { title: "Ngày bắt đầu", type: "date" },
+    { title: "Ngày kết thúc", type: "date" },
+    { title: "Số tín chỉ", type: "number" },
+    { title: "Trạng thái", type: "text" },
+    { title: "Học phí", type: "number" },
+    { title: "Ngày tạo", type: "date" },
+    { title: "Ngày cập nhật", type: "date" },
+    { title: "Hành động" },
+  ];
+  
   const data = [
     {
-      name: "Nguyễn Văn A",
-      email: "example@gmail.com",
-      phone: "0987654321",
-      created_at: "2024-11-20",
-      status: "Chưa xử lý",
-      message: "Mình có vấn đề với học phí",
+      id: "KH001",
+      courseName: "Toán học cơ bản",
+      instructor: "Nguyễn Văn A",
+      major: "Toán học",
+      startDate: "2024-01-15",
+      endDate: "2024-06-15",
+      credits: 3,
+      status: "Đang mở",
+      tuition: 2000000,
+      created_at: "2023-12-01",
+      updated_at: "2024-01-10"
     },
     {
-      name: "Trần Thị B",
-      email: "test@email.com",
-      phone: "0123456789",
-      created_at: "2024-11-19",
-      status: "Đã phản hồi",
-      message: "Cần hỗ trợ về khóa học Tiếng Anh",
+      id: "KH002",
+      courseName: "Tiếng Anh nâng cao",
+      instructor: "Trần Thị B",
+      major: "Tiếng Anh",
+      startDate: "2024-02-01",
+      endDate: "2024-07-01",
+      credits: 4,
+      status: "Đã kết thúc",
+      tuition: 3500000,
+      created_at: "2023-11-15",
+      updated_at: "2024-01-05"
     },
     {
-      name: "Lê Minh C",
-      email: "minh.c@example.com",
-      phone: "0981234567",
-      created_at: "2024-11-18",
-      status: "Đang xử lý",
-      message: "Khóa học Hóa học không hoạt động",
+      id: "KH003",
+      courseName: "Hóa học ứng dụng",
+      instructor: "Lê Minh C",
+      major: "Hóa học",
+      startDate: "2023-09-01",
+      endDate: "2023-12-15",
+      credits: 3,
+      status: "Tạm ngưng",
+      tuition: 2500000,
+      created_at: "2023-07-10",
+      updated_at: "2023-08-01"
     },
     {
-      name: "Phạm Thị D",
-      email: "pham.d@example.com",
-      phone: "0932323423",
-      created_at: "2024-11-17",
-      status: "Chưa xử lý",
-      message: "Có câu hỏi về chương trình học lập trình Python",
+      id: "KH004",
+      courseName: "Kỹ năng giao tiếp",
+      instructor: "Phạm Thị D",
+      major: "Kỹ năng mềm",
+      startDate: "2024-03-01",
+      endDate: "2024-06-01",
+      credits: 2,
+      status: "Đang mở",
+      tuition: 1500000,
+      created_at: "2023-12-20",
+      updated_at: "2024-01-15"
     },
     {
-      name: "Hoàng Thị E",
-      email: "hoang.e@example.com",
-      phone: "0912345678",
-      created_at: "2024-11-16",
-      status: "Đã phản hồi",
-      message: "Yêu cầu thêm tài liệu học tiếng Anh",
+      id: "KH005",
+      courseName: "Cơ bản lập trình Python",
+      instructor: "Phạm Minh E",
+      major: "Khoa học máy tính",
+      startDate: "2024-04-01",
+      endDate: "2024-07-30",
+      credits: 5,
+      status: "Đang mở",
+      tuition: 4000000,
+      created_at: "2023-12-25",
+      updated_at: "2024-02-01"
     },
   ];
-
+  
   const totalCount = data.length;
 
   return (
-    <>
+    <div>
+      <div className="flex items-center justify-between">
+        <p className="text-[18px] font-bold">Danh sách khoá học</p>
+        <CustomButton onClick={() => dispatch(setOpenCreate(true))}>
+          <p>Tạo khoá học</p>
+        </CustomButton>
+      </div>
+
       <div className="relative border border-gray-300 flex items-center mx-auto rounded-lg max-w-md h-10 mt-3 mb-5">
         <div style={{ width: "85%" }} className="flex items-center justify-between">
           <TextField
@@ -141,19 +182,27 @@ const Support = () => {
                 {columns.map((column, colIndex) => (
                   <TableCell key={colIndex} type={column.type}>
                     {column.title === "Hành động" ? (
-                      <div className="text-[16px] ml-5">
+                      <div className="text-[16px]">
+                        <button className="pr-3" onClick={() => dispatch(setOpenEdit(true))}>
+                          <FiEdit />
+                        </button>
                         <button onClick={() => dispatch(setOpenDelete(true))}>
                           <FaRegTrashCan />
                         </button>
                       </div>
                     ) : (
                       {
-                        "Tên": row.name,
-                        "Email": row.email,
-                        "Số điện thoại": row.phone,
-                        "Ngày gửi": row.created_at,
+                        "id": row.id,
+                        "Tên khóa học": row.courseName,
+                        "Giảng viên": row.instructor,
+                        "Chuyên ngành": row.major,
+                        "Ngày bắt đầu": row.startDate,
+                        "Ngày kết thúc": row.endDate,
+                        "Số tín chỉ": row.credits,
                         "Trạng thái": row.status,
-                        "Lời nhắn": row.message,
+                        "Học phí": row.tuition,
+                        "Ngày tạo": row.created_at,
+                        "Ngày cập nhật": row.updated_at,
                       }[column.title] || null
                     )}
                   </TableCell>
@@ -186,6 +235,17 @@ const Support = () => {
         )}
       </div>
 
+      {/* Modal tạo mới */}
+      <Overlay isOpen={openCreate} onClose={() => dispatch(setOpenCreate(false))} title="Tạo mới">
+        <FormCreateCourse onCancel={() => dispatch(setOpenCreate(false))} />
+      </Overlay>
+
+      {/* Modal chỉnh sửa */}
+      <Overlay isOpen={openEdit} onClose={() => dispatch(setOpenEdit(false))} title="Chỉnh Sửa">
+        <FormEditCourse onCancel={() => dispatch(setOpenEdit(false))} />
+      </Overlay>
+
+      {/* Modal xóa */}
       <Overlay isOpen={openDelete} onClose={() => dispatch(setOpenDelete(false))} title="Xóa Thông Tin">
         <div className="pl-4 pr-4 pb-4">
           <div className="text-[16px]">Bạn có chắc chắn muốn xóa không?</div>
@@ -199,8 +259,9 @@ const Support = () => {
           </div>
         </div>
       </Overlay>
-    </>
+
+    </div>
   );
 };
 
-export default Support;
+export default Course;

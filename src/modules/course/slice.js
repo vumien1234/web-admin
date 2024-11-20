@@ -6,7 +6,7 @@ const initialState = {
 	openDelete: false,
 };
 
-const accountUserSlice = createSlice({
+const courseSlice = createSlice({
   name: "accountUser",
   initialState,
   reducers: {
@@ -22,5 +22,5 @@ const accountUserSlice = createSlice({
   },
 });
 
-export const { setOpenEdit, setOpenCreate, setOpenDelete } = accountUserSlice.actions;
-export default accountUserSlice.reducer;
+export const { setOpenEdit, setOpenCreate, setOpenDelete } = courseSlice.actions;
+export default courseSlice.reducer;

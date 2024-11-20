@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Grid } from "@mui/material";
-import CustomButton from "../../../components/common/Button";
+import CustomButton from "../../components/common/Button";
 
-const FormCreate = ({ onCancel }) => {
+const FormCreateCourse = ({ onCancel }) => {
 	const { handleSubmit, control } = useForm();
 
 	const onSubmit = (data) => {
@@ -23,59 +23,49 @@ const FormCreate = ({ onCancel }) => {
 					</Grid>
 					<Grid item xs={6}>
 						<Controller
-							name="email"
+							name="courseName"
 							control={control}
-							render={({ field }) => <TextField {...field} label="Email" fullWidth />}
+							render={({ field }) => <TextField {...field} label="Tên khoá học" fullWidth />}
 						/>
 					</Grid>
 					<Grid item xs={6}>
 						<Controller
-							name="username"
+							name="instructor"
 							control={control}
 							render={({ field }) => (
-								<TextField {...field} label="Họ và tên" fullWidth />
+								<TextField {...field} label="Giảng viên" fullWidth />
 							)}
 						/>
 					</Grid>
 					<Grid item xs={6}>
 						<Controller
-							name="phone"
+							name="major"
 							control={control}
-							render={({ field }) => <TextField {...field} label="Số điện thoại" fullWidth />}
+							render={({ field }) => <TextField {...field} label="Chuyên nghành" fullWidth />}
 						/>
 					</Grid>
 					<Grid item xs={6}>
 						<Controller
-							name="dob"
+							name="credits"
 							control={control}
 							render={({ field }) => (
-								<TextField {...field} label="Ngày sinh" fullWidth />
+								<TextField {...field} label="Số tín chỉ" fullWidth />
 							)}
 						/>
 					</Grid>
-					<Grid item xs={6}>
-						<Controller
-							name="gender"
-							control={control}
-							render={({ field }) => <TextField {...field} label="Giới tính" fullWidth />}
-						/>
-					</Grid>
-					<Grid item xs={6}>
-						<Controller
-							name="expertise"
-							control={control}
-							render={({ field }) => (
-								<TextField {...field} label="Chuyên môn" fullWidth />
-							)}
-						/>
-					</Grid>
-				
 					<Grid item xs={6}>
 						<Controller
 							name="status"
 							control={control}
+							render={({ field }) => <TextField {...field} label="Trạng thái" fullWidth />}
+						/>
+					</Grid>
+					<Grid item xs={6}>
+						<Controller
+							name="tuition"
+							control={control}
 							render={({ field }) => (
-								<TextField {...field} label="Trạng thái" fullWidth />
+								<TextField {...field} label="Học phí" fullWidth />
 							)}
 						/>
 					</Grid>
@@ -97,7 +87,24 @@ const FormCreate = ({ onCancel }) => {
 							)}
 						/>
 					</Grid>
-
+          <Grid item xs={6}>
+						<Controller
+							name="startDate"
+							control={control}
+							render={({ field }) => (
+								<TextField {...field} label="Ngày bắt đầu" fullWidth />
+							)}
+						/>
+					</Grid>
+					<Grid item xs={6}>
+						<Controller
+							name="endDate"
+							control={control}
+							render={({ field }) => (
+								<TextField {...field} label="Ngày kết thúc" fullWidth />
+							)}
+						/>
+					</Grid>
 				</Grid>
 				<Grid item xs={6} className="!mt-10">
 					<CustomButton onClick={onCancel} variant="contained" color="inherit">
@@ -112,4 +119,4 @@ const FormCreate = ({ onCancel }) => {
 	);
 };
 
-export default FormCreate;
+export default FormCreateCourse;

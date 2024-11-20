@@ -1,19 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import PlaneReducer from "./modules/overview/slice";
-// import globalReducer from "./components/global/slices";
-// import afterFlyingReducer from "./modules/checkList/afterFlying/slices";
-// import authReducer from "./modules/auth/slices";
-// import beforeReducer from "./modules/checkList/beforeFlying/slices";
-// import userReducer from "./modules/user/slices";
+import accountReducer from './modules/account-management/slices'
+import courseReducer from './modules/course/slice'
+import supportReducer from './modules/support/slices'
 
 const store = configureStore({
     reducer: {
-        // overview: PlaneReducer,
-        // global: globalReducer,
-        // afterFly: afterFlyingReducer,
-        // auth: authReducer,
-        // beforeFly: beforeReducer,
-        // user: userReducer,
+        accountUser: accountReducer,
+        course: courseReducer,
+        support:supportReducer
     },
 });
 export default store;
